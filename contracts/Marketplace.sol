@@ -82,17 +82,17 @@ contract Marketplace is Manageable {
         stores[0].owner = msg.sender;
         stores[0].name = "Survival Items";
         stores[0].funds = 0;
-        stores[0].items[0] = Item("Flashlights", 2, 10);
-        stores[0].items[1] = Item("First Aid Kits", 1, 20);
-        stores[0].items[2] = Item("Flares", 1, 10);
+        stores[0].items[0] = Item("Flashlights", 2500, 10);
+        stores[0].items[1] = Item("First Aid Kits", 1500, 20);
+        stores[0].items[2] = Item("Flares", 1000, 10);
         stores[0].highItemId = 2;
         stores[0].firstItemCreated = true;
         stores[1].owner = msg.sender;
         stores[1].name = "Solidity Programmer Gear";
         stores[1].funds = 0;
-        stores[1].items[0] = Item("Lenovo Linux Laptop",5,10);
-        stores[1].items[1] = Item("Macbook Pro laptop",5,5);
-        stores[1].items[2] = Item("I Love Solidity Coffee Mug",1,100);
+        stores[1].items[0] = Item("Lenovo Linux Laptop",50000,10);
+        stores[1].items[1] = Item("Macbook Pro laptop",65000,5);
+        stores[1].items[2] = Item("I Love Solidity Coffee Mug",3000,100);
         stores[1].highItemId = 2;
         stores[1].firstItemCreated = true;
         lastStoreId = 1;
@@ -202,17 +202,18 @@ contract Marketplace is Manageable {
     enoughQuantity(storeId,itemId)
     {
         uint _amountToRefund = 0;
+        uint _amountMinusRefund = msg.value;
         if (msg.value >  stores[storeId].items[itemId].price ) {
           _amountToRefund = msg.value.sub(stores[storeId].items[itemId].price);
+          _amountMinusRefund = _amountMinusRefund.sub(_amountToRefund);
         }
-        stores[storeId].funds = stores[storeId].funds.add(msg.value);
+        stores[storeId].funds = stores[storeId].funds.add(_amountMinusRefund);
         stores[storeId].items[itemId].quantity = stores[storeId].items[itemId].quantity.sub(1);
         emit BuyItem(storeId, itemId);
         if (_amountToRefund > 0) {
             msg.sender.transfer(_amountToRefund);
         }
-    }
-
+    } 
 
     /// @dev gets data on an item from the store for the front end
     /// @param storeId id of the store

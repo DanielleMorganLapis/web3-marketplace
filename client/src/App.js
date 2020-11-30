@@ -119,7 +119,7 @@ runSetup = async () => {
 };
 
 updateStoreList = async () => {
-  const { accounts, lastStoreId, contract } = this.state;
+  const { accounts, lastStoreId, contract, storeSelectedId } = this.state;
   console.log("Regenerating the list of stores. Running updateStoreList with lastStoreId: " + lastStoreId);
 
   // get initial list of stores
@@ -128,6 +128,10 @@ updateStoreList = async () => {
   for (i = 0; i <= lastStoreId; i++) {
     let storeName = await contract.methods.fetchStore(i).call();
     storeList.push(storeName)
+    //if (i == storeSelectedId) {
+    //  console.log("Fixing the store selected funds value, setting to: " + storeName.funds );
+    //  this.setState({ storeSelectedFunds: storeName.funds }); // update the funds available to withdraw in currently viewed store 
+    // }
   }
 
   let newStoreList = storeList;
@@ -216,8 +220,9 @@ generateItemList = async (storeToGetFrom) => {
   console.log("Regenerating item list for store #" + storeToGetFrom);
   let highItemId = await contract.methods.getItemCount(storeToGetFrom).call();
   console.log("Got highest Item id: " + highItemId + " for Store id: " + highItemId);
-  let newStoreSelectedFunds = Number(web3.utils.fromWei(storeList[storeToGetFrom].funds, 'ether'));
-  //web3.utils.fromWei(store.funds, 'ether
+  // get more recent store funds amount
+  let currentlySelectedStore = await contract.methods.fetchStore(storeToGetFrom).call();
+  let newStoreSelectedFunds = Number(currentlySelectedStore.funds);
   console.log("Loaded store funds available: " + newStoreSelectedFunds);
   let newStoreSelectedOwner = storeList[storeToGetFrom].isStoresOwner;
   var newItemList = [];
@@ -281,11 +286,11 @@ deleteStoreItem = async (event) => {
 changeItemPrice = async (event) => {
   event.preventDefault();
   const { contract, accounts, storeSelectedId,  changeItemPriceId, changeItemNewPrice} = this.state;
-  let newMessage = "Changing Item id: " + changeItemPriceId + " price to:  " + changeItemNewPrice + "Ξ.";
+  let newMessage = "Changing Item id: " + changeItemPriceId + " price to:  " + changeItemNewPrice + " wei.";
   this.setState({ message: newMessage});
   console.log(newMessage);
   await contract.methods.changeItemPrice(storeSelectedId, changeItemPriceId, changeItemNewPrice).send({from: accounts[0]});
-  newMessage  = "Changed Item id: " + changeItemPriceId + " price to:  " + changeItemNewPrice + "Ξ.";
+  newMessage  = "Changed Item id: " + changeItemPriceId + " price to:  " + changeItemNewPrice + " wei.";
   this.setState({ message: newMessage});
   console.log(newMessage);
   this.generateItemList(storeSelectedId);
@@ -294,12 +299,12 @@ changeItemPrice = async (event) => {
 
 buyItemOnClick = async (item) => {
   const { contract, accounts, storeSelectedId, web3} = this.state;
-  let newMessage = "Purchasing Item id: " + item.id + " for  " + item.price + "Ξ.";
+  let newMessage = "Purchasing Item id: " + item.id + " for  " + item.price + " wei.";
   this.setState({ message: newMessage});
   console.log(newMessage);
   await contract.methods.buyStoreItem(storeSelectedId, item.id).send({from: accounts[0],
-      value: web3.utils.toWei(item.price, 'ether')});
-  newMessage = "Purchased Item id: " + item.id + " for  " + item.price + "Ξ.";
+      value: web3.utils.toWei(item.price, 'wei')});
+  newMessage = "Purchased Item id: " + item.id + " for  " + item.price + " wei.";
   this.setState({ message: newMessage});
   console.log(newMessage);
   this.generateItemList(storeSelectedId);
@@ -310,14 +315,20 @@ buyItemOnClick = async (item) => {
 
 withdrawFunds = async (event) => {
   event.preventDefault();
-  const { contract, accounts, storeSelectedId, changeWithdraw} = this.state;
-  let newMessage = "Withdrawing the store funds for store id #:" + storeSelectedId + ". Trying to withdraw " + changeWithdraw + "Ξ."
+  const { contract, accounts, storeSelectedId, changeWithdraw, storeList} = this.state;
+  let newMessage = "Withdrawing the store funds for store id #:" + storeSelectedId + ". Trying to withdraw " + changeWithdraw + " wei."
   this.setState({ message: newMessage});
   console.log(newMessage);
   await contract.methods.withdrawStoreFunds(storeSelectedId,changeWithdraw).send({from: accounts[0]});
   newMessage = "Withdrew the store funds for store id #:" + storeSelectedId;
   this.setState({ message: newMessage});
   console.log(newMessage);
+  // update the amount of funds displayed:
+  let currentlySelectedStore = await contract.methods.fetchStore(storeSelectedId).call();
+  let newStoreSelectedFunds = Number(currentlySelectedStore.funds);
+  let newStoreList = storeList;
+  newStoreList[storeSelectedId].funds = newStoreSelectedFunds;
+  this.setState({ storeList: newStoreList, storeSelectedFunds: newStoreSelectedFunds});
 }
 
 render() {
@@ -421,7 +432,7 @@ render() {
           <td>{store.highItemId}</td>
           <td>{store.owner}</td>
           <td>{String(store.isStoresOwner)}</td>
-          <td>{web3.utils.fromWei(store.funds, 'ether')}Ξ</td>
+          <td>{String(store.funds)} wei</td>
           <td><button onClick={this.selectAStoreOnClick.bind(this, store)}>Select</button></td>
         </tr>
     ];
@@ -448,7 +459,7 @@ render() {
               <tr key={item.id}>
                   <td>#<strong>{item.id}</strong></td>
                   <td>{item.name}</td>
-                  <td>{item.price}Ξ</td>
+                  <td>{item.price} wei</td>
                   <td>{item.quantity}</td>
                   <td><button onClick={this.buyItemOnClick.bind(this, item)}>Buy</button></td>
                 </tr>
@@ -477,7 +488,7 @@ render() {
               <input name="addItemName" type="text" placeholder="New Item Name" style={{width: "320px"}}
               onChange={this.handleInputChange}
               value={this.state.addItemName}/>&nbsp;&nbsp;
-              <input name="addItemPrice" type="number" placeholder="Price" style={{width: "75px"}}
+              <input name="addItemPrice" type="number" placeholder="Price" style={{width: "250px"}}
               onChange={this.handleInputChange}
               value={this.state.addItemPrice}/>&nbsp;&nbsp;
               <input name="addItemQuantity" type="number" placeholder="Quantity" style={{width: "75px"}}
@@ -501,7 +512,7 @@ render() {
             <input name="changeItemPriceId" type="number" placeholder="Id to change" style={{width: "100px"}}
               onChange={this.handleInputChange}
               value={this.state.changeItemPriceId}/>&nbsp;&nbsp;
-            <input name="changeItemNewPrice" type="number" placeholder="New price" style={{width: "100px"}}
+            <input name="changeItemNewPrice" type="number" placeholder="New price" style={{width: "250px"}}
               onChange={this.handleInputChange}
               value={this.state.changeItemNewPrice}/>&nbsp;&nbsp;
               <button type="submit" onClick={this.changeItemPrice}>Change price</button>
@@ -510,9 +521,9 @@ render() {
             <br />
             <div className="container">
             <form>
-              Funds available for withdraw: {String(this.state.storeSelectedFunds)}Ξ
+              Funds available for withdraw: {String(this.state.storeSelectedFunds)} wei&nbsp;&nbsp;
               <br/>
-              <input name="changeWithdraw" type="number" placeholder="Amount to withdraw" style={{width: "100px"}}
+              <input name="changeWithdraw" type="number" placeholder="Amount to withdraw" style={{width: "250px"}}
               onChange={this.handleInputChange}
               value={this.state.changeWithdraw}/>&nbsp;&nbsp;
               <button type="submit" onClick={this.withdrawFunds}>Withdraw store funds</button>
