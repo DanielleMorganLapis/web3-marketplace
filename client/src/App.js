@@ -119,7 +119,7 @@ runSetup = async () => {
 };
 
 updateStoreList = async () => {
-  const { accounts, lastStoreId, contract, storeSelectedId } = this.state;
+  const { accounts, lastStoreId, contract } = this.state;
   console.log("Regenerating the list of stores. Running updateStoreList with lastStoreId: " + lastStoreId);
 
   // get initial list of stores
@@ -216,7 +216,7 @@ selectAStoreOnClick(store) {
 }
 
 generateItemList = async (storeToGetFrom) => {
-  const { storeList, contract, web3 } = this.state;
+  const { storeList, contract } = this.state;
   console.log("Regenerating item list for store #" + storeToGetFrom);
   let highItemId = await contract.methods.getItemCount(storeToGetFrom).call();
   console.log("Got highest Item id: " + highItemId + " for Store id: " + highItemId);
@@ -335,8 +335,6 @@ render() {
   if (!this.state.web3) {
     return <div>Loading Web3, accounts, and contract...</div>;
   }
-
-  const { web3} = this.state;
 
   return (
     <div className="App">
