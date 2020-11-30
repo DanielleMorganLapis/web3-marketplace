@@ -76,20 +76,17 @@ contract Marketplace is Manageable {
 
     /// @dev Constructor sets up some demo stores and items to start with
     constructor() public {
-        //addStore("Demo Store - Survival Items");
+        paused = false;
         admins[msg.sender] = true;
         storeOwners[msg.sender] = true;
-        paused = false;
         stores[0].owner = msg.sender;
         stores[0].name = "Survival Items";
         stores[0].funds = 0;
-        //stores[0] = Store(msg.sender, "Demo Store - Survival Items",0,0, false);
         stores[0].items[0] = Item("Flashlights", 2, 10);
         stores[0].items[1] = Item("First Aid Kits", 1, 20);
         stores[0].items[2] = Item("Flares", 1, 10);
         stores[0].highItemId = 2;
         stores[0].firstItemCreated = true;
-        //stores[1] = Store(msg.sender, "Demo Store 2 - Programmer Gear",0,0, false);
         stores[1].owner = msg.sender;
         stores[1].name = "Solidity Programmer Gear";
         stores[1].funds = 0;
