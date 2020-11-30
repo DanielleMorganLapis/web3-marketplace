@@ -1,18 +1,8 @@
 import React, { Component } from "react";
-//import ManageableContract from "./contracts/Manageable.json";
 import MarketplaceContract from "./contracts/Marketplace.json";
 import getWeb3 from "./getWeb3.js";
 
 import "./App.css";
-
-/*
-function Store(props) {
-  return (
-      <button className="store" onClick={props.onClick}>
-          {props.value}
-      </button>
-  )
-}*/
 
 class App extends Component {
 
@@ -29,6 +19,11 @@ class App extends Component {
 
       // roles
       isAdmin: false, isStoreOwner: false, 
+
+      // pause
+      paused: false,
+      pausedMessage: '',
+      pauseButton: "Pause",
 
       // stores
       lastStoreId: 0, storeList: [], 
@@ -69,6 +64,7 @@ class App extends Component {
     this.addStoreOwner = this.addStoreOwner.bind(this);
     this.revokeStoreOwner = this.revokeStoreOwner.bind(this);
     this.addStore = this.addStore.bind(this);
+    this.pauseOnClick = this.pauseOnClick.bind(this);
 
     // Items
     this.addStoreItem = this.addStoreItem.bind(this);
@@ -115,8 +111,27 @@ runSetup = async () => {
   this.setState({ isAdmin: getUser[0], isStoreOwner: getUser[1], lastStoreId: getUser[2] })
 
   this.updateStoreList();
+
+  const getPauseStatus = await contract.methods.checkIsPaused().call({from: accounts[0]});
+
+  this.setState({ paused: getPauseStatus})
   
 };
+
+pauseOnClick = async () => {
+  const { accounts, contract, paused } = this.state;
+
+  if (paused)
+  {
+    await contract.methods.unPause().send({ from: accounts[0] });
+    this.setState({ paused: false, pausedMessage:"", pauseButton: "Pause"})
+  }
+  else // not paused
+  {
+    await contract.methods.pause().send({ from: accounts[0] });
+    this.setState({ paused: true, pausedMessage:"Everything is currently paused!  ", pauseButton: "Unpause"})
+  }
+}
 
 updateStoreList = async () => {
   const { accounts, lastStoreId, contract } = this.state;
@@ -347,6 +362,8 @@ render() {
         if (this.state.isAdmin) return (
       <div>
       <h2>Administration menu</h2>
+      {this.state.pausedMessage}<button type="submit" onClick={this.pauseOnClick}>{this.state.pauseButton}</button> <br/>
+      <br/>
       <form>
           <input name="addAdminAddress" type="text" placeholder="Address to add as admin" style={{width: "320px"}}
           onChange={this.handleInputChange}

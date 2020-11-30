@@ -25792,10 +25792,267 @@
       "links": {},
       "address": "0x48b163B0B0b9C222F961f8992C2C84B0241Bc4a0",
       "transactionHash": "0x565ec7df266f89d52dfb3755e1ca0d49b0d2244c93b32e82c365127829eef58b"
+    },
+    "1606775354489": {
+      "events": {
+        "0x99ad91c72e4fcc0a37d0481b982aec5c0c78491d30d39e65338bec15fa9cc4b7": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "newAdmin",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "admin",
+              "type": "address"
+            }
+          ],
+          "name": "AddAdmin",
+          "type": "event"
+        },
+        "0x30d1f15a52173fe410863c529bd01554f73e11f437b3ba606c5cd794235ecf63": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "storeOwner",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "storeId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "itemId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "price",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "quantity",
+              "type": "uint256"
+            }
+          ],
+          "name": "AddNewItem",
+          "type": "event"
+        },
+        "0x4014c61333d535d16aa6dca4efac566025b39f7bb7fa4529da40c6feca390097": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "storeOwner",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "storeId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            }
+          ],
+          "name": "AddStore",
+          "type": "event"
+        },
+        "0x15b39d6a83b4640efed3a5dd692f6487d19002a6e34775bf3f00fcdea9d47582": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "newStoreOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "storeOwner",
+              "type": "address"
+            }
+          ],
+          "name": "AddStoreOwner",
+          "type": "event"
+        },
+        "0xc2e673eca69e250dcbf52a7d0b0b0dbe3f91c5485bcbaa44245d15cbc3460aba": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "storeId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "itemId",
+              "type": "uint256"
+            }
+          ],
+          "name": "BuyItem",
+          "type": "event"
+        },
+        "0x342a7f6248980b0f191b96eb6b7a439c4da78b2c97b86ca66cc7ee90d4b04cce": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "storeOwner",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "storeId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "itemId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "price",
+              "type": "uint256"
+            }
+          ],
+          "name": "ChangePrice",
+          "type": "event"
+        },
+        "0x6985a02210a168e66602d3235cb6db0e70f92b3ba4d376a33c0f3d9434bff625": {
+          "anonymous": false,
+          "inputs": [],
+          "name": "Pause",
+          "type": "event"
+        },
+        "0x27c9205d6d9efc223113cd7761af36207d1ce6743fb9f2547f6fdb772c44bc8c": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "storeId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "id",
+              "type": "uint256"
+            }
+          ],
+          "name": "RemoveItem",
+          "type": "event"
+        },
+        "0x64fe5b8de88c898e9178daabf0fa372d2d65ff14649e0f7e9f35b3a4b85ac08d": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "removedAdmin",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "admin",
+              "type": "address"
+            }
+          ],
+          "name": "RevokeAdmin",
+          "type": "event"
+        },
+        "0xdbdfc8c7df7b1d1e6c481e94aad29707019da41a2485b2ea4d8724cddce38490": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "removedStoreOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "storeOwner",
+              "type": "address"
+            }
+          ],
+          "name": "RevokeStoreOwner",
+          "type": "event"
+        },
+        "0x7805862f689e2f13df9f062ff482ad3ad112aca9e0847911ed832e158c525b33": {
+          "anonymous": false,
+          "inputs": [],
+          "name": "Unpause",
+          "type": "event"
+        },
+        "0x850f3c7e08f80943d8666ef94f99a95a9f85b3fc39af2a08829aa61a276b7a42": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "storeOwner",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "storeId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "funds",
+              "type": "uint256"
+            }
+          ],
+          "name": "WithdrawFunds",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0xC5FcC3691aCF2d272cEcDC2F79AeD764C5471470",
+      "transactionHash": "0x6e7ca06aeddde85b80b2817d0967bb3a8553544be40940f5d5a7c1f4d6b05841"
     }
   },
   "schemaVersion": "3.2.5",
-  "updatedAt": "2020-11-30T22:02:29.433Z",
+  "updatedAt": "2020-11-30T22:29:42.184Z",
   "networkType": "ethereum",
   "devdoc": {
     "author": "Danielle Lapis",
