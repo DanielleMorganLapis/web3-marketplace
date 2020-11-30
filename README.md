@@ -15,17 +15,32 @@ An approved store owner logs into the app. The web app recognizes their address 
 A shopper logs into the app. The web app does not recognize their address so they are shown the generic shopper application. From the main page they can browse all of the storefronts that have been created in the marketplace. Clicking on a storefront will take them to a product page. They can see a list of products offered by the store, including their price and quantity. Shoppers can purchase a product, which will debit their account and send it to the store. The quantity of the item in the store’s inventory will be reduced by the appropriate amount.
 
 /client/src/App.js - the front end
+
 /contracts/ - Solidity contracts
+
 /test/marketplace.test.js - 12 tests for marketplace contract and the manageable interface
 
 used with:
+
 node v12.18.4 (npm v6.14.6)
+
 Truffle v5.1.46
+
 solcjs 0.5.16
+
 ganache-cli v6.10.2 (ganache-core: 2.11.3)
 
+
 Place .secret file in root with 12 words for the private key.
+
 Run: ganache-cli -m, followed by the 12 words between "" to start the local chain with those keys
+
 Run: truffle migrate to deploy the contracts to the local chain
+
 Run: npm start dev in client/src/
+
+Have Metamask connect in the browser to the 127.0.0.1 localhost, port 8545.
+
 First account starts with 2 stores, admin and store owner access. There is a limit of 16 stores.
+
+Alternatively, you can run the front end with npm start dev, load the page and switch Metamask to connect to Rinkeby instead of a local chain, as an ordinary user of the store.
