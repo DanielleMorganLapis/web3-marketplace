@@ -1,7 +1,7 @@
-For Consensys Academy Developer Bootcamp 2020
+#### For Consensys Academy Developer Bootcamp 2020
 
-Online Marketplace
-Description: Create an online marketplace that operates on the blockchain.
+# Online Marketplace
+## Description: Create an online marketplace that operates on the blockchain.
  
 There are a list of stores on a central marketplace where shoppers can purchase goods posted by the store owners.
  
@@ -14,13 +14,15 @@ An approved store owner logs into the app. The web app recognizes their address 
  
 A shopper logs into the app. The web app does not recognize their address so they are shown the generic shopper application. From the main page they can browse all of the storefronts that have been created in the marketplace. Clicking on a storefront will take them to a product page. They can see a list of products offered by the store, including their price and quantity. Shoppers can purchase a product, which will debit their account and send it to the store. The quantity of the item in the store’s inventory will be reduced by the appropriate amount.
 
+#### Directories
+
 /client/src/App.js - the front end
 
 /contracts/ - Solidity contracts
 
 /test/marketplace.test.js - 12 tests for marketplace contract and the manageable interface
 
-used with:
+#### Used with:
 
 node v12.18.4 (npm v6.14.6)
 
@@ -30,6 +32,7 @@ solcjs 0.5.16
 
 ganache-cli v6.10.2 (ganache-core: 2.11.3)
 
+#### Instructions
 
 Place .secret file in root with 12 words for the private key.
 
