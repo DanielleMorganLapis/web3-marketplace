@@ -106,16 +106,23 @@ componentDidMount = async () => {
 runSetup = async () => {
   const { accounts, contract } = this.state;
 
-  const getUser = await contract.methods.getFrontEndData().call({ from: accounts[0] });
+  try {
+    const getUser = await contract.methods.getFrontEndData().call({ from: accounts[0] });
 
-  this.setState({ isAdmin: getUser[0], isStoreOwner: getUser[1], lastStoreId: getUser[2] })
+    this.setState({ isAdmin: getUser[0], isStoreOwner: getUser[1], lastStoreId: getUser[2] })
 
-  this.updateStoreList();
-
-  const getPauseStatus = await contract.methods.checkIsPaused().call({from: accounts[0]});
-
-  this.setState({ paused: getPauseStatus})
+    this.updateStoreList();
   
+    const getPauseStatus = await contract.methods.checkIsPaused().call({from: accounts[0]});
+  
+    this.setState({ paused: getPauseStatus})
+  }
+  catch (error) {
+    alert(
+      `Can't connect to the contract. Try using the rinkeby network or deploy the contract locally and connect there.`,
+    );
+    console.error(error);
+  }
 };
 
 pauseOnClick = async () => {

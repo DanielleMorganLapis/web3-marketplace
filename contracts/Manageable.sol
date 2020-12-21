@@ -30,7 +30,7 @@ contract Manageable {
     }
 
     modifier notPaused() {
-        require(!paused,"Operations with the online marketplace are currently pause.");
+        require(!paused,"Operations with the online marketplace are currently paused.");
         _;
     }
 

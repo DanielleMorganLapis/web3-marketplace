@@ -34,16 +34,48 @@ ganache-cli v6.10.2 (ganache-core: 2.11.3)
 
 #### Instructions
 
-Place .secret file in root with 12 words for the private key.
+##### Running locally
 
-Run: ganache-cli -m, followed by the 12 words between "" to start the local chain with those keys
+In the root directory, run:
 
-Run: truffle migrate to deploy the contracts to the local chain
+```
+ganache-cli
+```
 
-Run: npm start dev in client/src/
+A list of accounts and private keys appears. Under the line below "HD Wallet", there is a Mnemonic of 12 words. Create a .secret file in the root directory of the project and copy and paste these 12 words into the .secret file and save.
 
-Have Metamask connect in the browser to the 127.0.0.1 localhost, port 8545.
+If you need to cancel ganache-cli and re-run it, start ganache-cli -m, followed by the 12 words in the secret file between "" to start the local chain with those keys.
+
+To deploy the contracts to the local chain that ganache-cli is running, open up a new terminal, then run:
+```
+truffle migrate
+```
+
+Run the tests with:
+```
+truffle test
+```
+
+To start the react app:
+```
+cd client/src
+npm start dev
+```
+
+In Metamask, click on the icon in the upper-right, and select to "Import Account". In the terminal ganache-cli is running has a list of private keys, select the private key that is associated with account (0) and import into Metamask, this is the master admin account for the application.
+
+Set up Metamask to connect to Custom RPC, have it connect in the browser to the 127.0.0.1 localhost, port 8545, on the react app tab, localhost:3000.
 
 First account starts with 2 stores, admin and store owner access. There is a limit of 16 stores.
 
-Alternatively, you can run the front end with npm start dev, load the page and switch Metamask to connect to Rinkeby instead of a local chain, as an ordinary user of the store.
+##### Connecting to rinkeby
+
+Alternatively, you can connect and use the app on the rinkeby network, instead of running locally.
+
+To start the react app:
+```
+cd client/src
+npm start dev
+```
+
+In the web browser, on the localhost:3000 tab, select the Rinkeby Test Network to interact with the application.
